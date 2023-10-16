@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v01_instance03.html</title>
+  <style>
+    .strike-through{
+      text-decoration: line-through;
+      color: lightgray;
+    }
+    .dark{
+      background-color: gray;
+    }
+  </style>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app1">
+    <!-- v-bind: 태그의 속성값을 지정. -->
+    <p><img src="sample.jpg" style="width: 20%;" alt=""></p>
+    <p><img v-bind:src="fileName" v-bind:style="myStyle" alt=""></p>
+    <hr>
+    <a href="https://www.naver.com">네이버 이동</a>
+    <a v-bind:href = "myUrl">{{mySite}}</a>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app1',
+      data: {
+        fileName: 'sample2.jpg',
+        myStyle: {
+          width: '30%',
+          border: '1px solid red'
+        },
+        myUrl: 'https://www.daum.net',
+        mySite: '다음사이트로 이동'
+      }
+    })
+    vm.$data.myUrl = 'https://www.nate.com';
+    //달러 data 붙여도 되고 안붙여도 됨
+    vm.mySite = '네이트로 이동';
+  </script>
+
+  <div id="app3">
+    <p style="color: lightcoral; border: 1px solid skyblue">직접지정</p>
+    <button id="changeBtn">변경</button>
+    <p v-bind:style="myStyle">Vue지정</p>
+    <button v-on:click="changeStyle">변경</button>
+  </div>
+  <script>
+    // 1. 자바스크립트.
+    document.querySelector('#changeBtn').addEventListener('click',function(){
+      document.querySelector('#app3 p').style.color = 'blue';
+    })
+
+    // 2. Vue.js
+    new Vue({
+      el: '#app3',
+      data: {
+        myStyle: {
+          color: 'lightcoral',
+          border: '1px solid skyblue'
+        },
+        chageStyle: {
+          color: 'blue',
+        }
+      },
+      methods: {
+        changeStyle: function(){
+          //this.myStyle = this.chageStyle;
+          this.myStyle.color = 'blue';
+          this.myStyle.border = '2px solid red';
+          //document.querySelectorAll('#app3 p')[1].style.color = 'blue';
+        }
+      }
+    })
+    // methods: 이벤트와 관련된 속성, this: Vue객체
+
+    // Vue 실행 전에 자바스크립트 적어주면 적용이 안돼서 Vue 실행 후 적어줌
+      document.querySelector('#changeBtn').addEventListener('click',function(){
+      document.querySelector('#app3 p').style.color = 'blue';
+    })
+  </script>
+
+  <div id="app4">
+    <p class="strike-through dark">클래스지정</p>
+    <p v-bind:class="myStyle">v-bind지정</p>
+    <p v-bind:class="[myStyle,myDark]">v-bind 복수지정</p>
+    <!-- isON이 true면 적용, false면 적용하지 않음 -->
+    <p v-bind:class="{'strike-through': isON}">On/Off</p>
+  </div>
+  <script>
+    new Vue({
+      el: '#app4',
+      data: {
+        myStyle: 'strike-through',
+        myDark: 'dark',
+        isON: true // false
+      }
+    })
+  </script>
+</body>
+</html>

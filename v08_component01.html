@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v08_component01.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+    <template id="timeTemplate">
+      <div>
+        <p></p>
+        <span>현재시간: {{currentTime}}</span>
+        <button v-on:click="timeClick">현재시간</button>
+      </div>
+    </template>
+  <script>
+    Date.prototype.timeFormat = function(){
+      // yyyy-MM-dd HH:mm:ss
+      //console.log(this);
+      let yyyy = this.getFullYear();
+      let mm = this.getMonth() + 1;
+      let dd = this.getDate();
+      let hh = this.getHours();
+      let mi = this.getMinutes();
+      let ss = '0'+this.getSeconds();
+      
+      // 뒤에서 두자리 잘라오기: slice(-2)
+      return yyyy+"-"+mm+"-"+dd+" "+hh+":"+mi+":"+ss.slice(-2);
+    }
+
+    // 전역 component : 이 페이지 전체에서 component 사용 가능
+    Vue.component('time-component',{
+      template: '#timeTemplate',
+      // component 각각에 정의해주기 위해 data에 function()으로 정의
+      data: function(){
+        return {
+          // new Date() = new Date(Date.now())
+          currentTime: (new Date()).timeFormat()
+        }
+      },
+      methods: {
+        timeClick: function(){
+          this.currentTime = (new Date()).timeFormat();
+        }
+      }
+    })
+  </script>
+
+  <div id="app">
+    <time-component></time-component>
+    <time-component></time-component>
+    <!-- 지역 component -->
+    <my-component></my-component>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        ctime: ''
+      },
+      // 지역 component: 해당 인스턴스 안에서만 사용
+      components: {
+        'my-component': {
+          template: '<div>Hello, World</div>'
+        }
+      }
+    })
+  </script>
+
+  <div id="other">
+    <time-component></time-component>
+    <my-component></my-component>
+  </div>
+  <script>
+    new Vue({
+      el: '#other',
+      data: {
+        ctime: ''
+      },
+      components: {
+        'my-component': {
+          template: '<div>Hello, mycomponent</div>'
+        }
+      }
+    })
+  </script>
+</body>
+</html>

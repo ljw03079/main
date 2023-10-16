@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v01_instance01.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <!-- View -->
+  <div id="view">
+    <p v-text="message"></p>
+    {{name}}
+  </div>
+
+  <script>
+    // MVVM(Model,View,ViewModel) // 데이터를 바꾸면 vue 객체가 화면상에 바뀐 데이터를 보여줌(랜더링)
+
+    // Model // 데이터 정의
+    var model = {
+      message: "Hello, World",
+      name: "Hong"
+    }
+
+    // ViewModel // Vue 객체
+    var vm = new Vue({
+      // el: 보여줘야할 위치 지정
+      el: '#view',
+      data: model
+    });
+
+    console.log(vm);
+    vm.$data.message = "Nice, World";
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v07_component01.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <h3>template속성 활용</h3>
+  <div id="app">
+    <hello-component msg="World"></hello-component>
+    <hello-component msg="Friend"></hello-component>
+    <hello-component msg="You"></hello-component>
+  </div>
+  <script>
+    
+    // 데이터를 children에게 넘겨줄 때 props로 넘겨줌
+    Vue.component('hello-component',{
+      // html 태그 만들어주는 것 template 이라고 함.
+      template: '<div>Hello,{{msg}}</div>',
+      // attribute 지정하면 props로 값을 받아옴
+      props: ['msg']
+    })
+    // children에서 parents 데이터를 바꿀때는 event 발신
+
+    // 루트 component
+    var vm = new Vue({
+      el: '#app'
+    })
+
+    console.log(vm.$children[0].msg = '세상');
+  </script>
+</body>
+</html>

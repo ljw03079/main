@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v04_example1.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <button @click="countUp" v-bind:disabled="myChk">증가</button>
+    <p>{{myCnt}}</p>
+    <input v-model="myVal">
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        myCnt: 0,
+        myChk: false,
+        myVal: 2
+      },
+      methods: {
+        countUp: function(){
+          //this.myCnt += 1;
+          this.myCnt += Number(this.myVal);
+          if(this.myCnt >= 10){
+            this.myChk = true;
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

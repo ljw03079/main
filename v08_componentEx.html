@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v08_componentEx.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <!-- v05_computed02.html => Component로 구현 -->
+
+  <!-- list-component -->
+  <template id="listTemplate">
+    <div>
+      <ul>
+        <li v-for="item in lists">{{item}}</li>
+      </ul>
+    </div>
+  </template>
+  <script>
+    Vue.component('list-component',{
+      template: '#listTemplate',
+      props: ['lists']
+    })
+  </script>
+
+  <!-- search-component -->
+  <template id="searchTemplate">
+    <div>
+      검색: <input type="text" v-model="searchWords" v-on:keyup.enter="keyupEvent"> 
+    </div>
+  </template>
+  <script>
+    Vue.component('search-component',{
+      template: '#searchTemplate',
+      data: function(){
+        return {
+          searchWords: ''
+        }
+      },
+      methods: {
+        keyupEvent(){
+          if(this.searchWords){
+            this.$emit('search',this.searchWords);
+            //console.log(this.searchWords);
+          }else{
+            this.$emit('search','');
+          }
+        }
+      }
+    })
+  </script>
+
+  <!-- search-list-component: dataList 데이터... -->
+  <template id="searchlistTemplate">
+    <div>
+      <search-component v-on:search="searchEvent"></search-component>
+      <list-component v-bind:lists="dataList"></list-component>
+      <div v-show="isProcessing">조회 중</div>
+    </div>
+  </template>
+  <script>
+    Vue.component('search-list-component',{
+      template: '#searchlistTemplate',
+      data: function(){
+        return {
+          isProcessing: false,
+          dataList: ['hello','world','nice','friend','happy']
+        }
+      },
+      methods: {
+        searchEvent(words){
+          //console.log('searchEvent');
+          let data = ['hello','world','nice','friend','happy'];
+          let resultAry = []; // 반환할 배열을 담을 변수
+          if(words)
+          {
+            resultAry = this.dataList.filter(item => {
+              return item.indexOf(words) > -1;
+            });
+          }
+          else
+          {
+            resultAry = data;
+          }
+          return this.dataList = resultAry;
+        }
+      }
+    })
+  </script>
+
+  <!-- Root Component -->
+  <div id="app">
+    <search-list-component></search-list-component>
+  </div>
+  <script>
+    new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v05_computed02.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- v08_component_ex.html에 component로 재구현 -->
+    <!-- search-list-component: dataList 데이터... -->
+
+    <!-- search-component -->
+    <input v-model="searchWords"> 
+    <!-- list-component -->
+    <ul>
+      <li v-for="item in findItems">{{item}}</li>
+    </ul>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        dataList: ['hello','world','nice','friend','happy'],
+        searchWords: ''
+      },
+      computed: {
+        findItems: function(){
+          let resultAry = []; // 반환할 배열을 담을 변수
+          if(this.searchWords)
+          {
+            resultAry = this.dataList.filter(item => {
+              return item.indexOf(this.searchWords) > -1;
+            });
+          }
+          else
+          {
+            resultAry = this.dataList;
+          }
+          return resultAry;
+        }
+      }
+    })
+  </script>
+</body>
+</html>

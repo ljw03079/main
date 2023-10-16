@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v06_board.html</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+
+    <!-- 게시글 목록. -->
+    <div id="boardList" v-if="boardList">
+      <h3>목록</h3>
+      <table border="1" id="list">
+        <thead>
+          <tr>
+            <th>글번호</th>
+            <th>글제목</th>
+            <th>조회수</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="board in boards">
+            <td>{{board.no}}</td>
+            <td @click="getBoard(board)">{{board.title}}</td>
+            <td>{{board.view}}</td>
+            <td><button @click="boardDelete(board.no)">삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <button @click="showWrite">글쓰기</button>
+    </div>
+
+    <!-- 게시글 작성. -->
+    <div id="boardWrite" v-if="boardWrite">
+      <h3>작성</h3>
+      <table id="list">
+        <tbody>
+          <tr>
+            <th>글제목</th>
+            <td><input type="text" style="width: 90%" v-model="title"></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <textarea cols="30" rows="3" style="width: 100%" v-model="content"></textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button @click="showList">목록보기</button>
+      <button @click="saveBoard">글저장</button>
+    </div>
+
+    <!-- 게시글 상세. -->
+    <div id="boardRead" v-if="boardRead">
+      <h3>상세</h3>
+      <table id="list">
+        <tbody>
+          <tr>
+            <td style="width: 50px;">글번호</td>
+            <td>{{board.no}}</td>
+            <td style="width: 50px;">조회수</td>
+            <td>{{board.view}}</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">글제목</td>
+            <td colspan="3">{{board.title}}</td>
+          </tr>
+          <tr style="height: 150px;">
+            <td colspan="4">{{board.content}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button @click="showList">목록보기</button>
+    </div>
+  </div>
+  <script>
+    var boardList = [
+      {no: 1, title: '오늘은 금요일', content: '마음이 즐겁습니다.', view: 1},
+      {no: 2, title: '오늘의 각오', content: '집에 가서 밤새 놀자', view: 2},
+      {no: 3, title: '내일은...', content: '공부도 해야지', view: 5},
+    ]
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        boards: boardList,
+        title: '',
+        content: '',
+        // 
+        board: null,
+        boardList: true,
+        boardWrite: false,
+        boardRead: false,
+      },
+      methods: {
+        showWrite(){
+          this.boardWrite = true;
+          this.boardList = false;
+          this.boardRead = false;
+        },
+        showList(){
+          this.boardWrite = false;
+          this.boardList = true;
+          this.boardRead = false;
+          this.board = null;
+          this.boards.forEach((item, idx)=>{
+            this.boards[idx].no = idx+1;
+          })
+        },
+        showBoard(){
+          this.boardWrite = false;
+          this.boardList = false;
+          this.boardRead = true;
+        },
+        saveBoard(){
+          // 글번호: , 조회수: 0
+
+          // let no = this.boards.length + 1;
+          // [no,title,content,view]=[no,this.title,this.content,0];
+          // this.boards.push({no,title,content,view});
+          // this.showList();
+
+          // 교수님 풀이
+          // let no = 1;
+          // 배열의 마지막위치에 있는 글번호 + 1;
+          // let pos = this.boards.length - 1;
+          // no = this.boards[pos].no;
+          // no++;
+
+          this.boards.push({no: this.boards.length+1 ,title: this.title,content: this.content,view: 0});
+
+          this.showList();
+          //초기화
+          [this.title, this.content] = ['',''];
+        },
+        getBoard(board){
+          this.board = board;
+          this.board.view++;
+          this.showBoard();
+        },
+        boardDelete(bno){
+          for(let i=0;i<this.boards.length;i++){
+            if(this.boards[i].no == bno){
+              this.boards.splice(i,1);
+            }
+          }
+          this.showList();
+        }
+      }
+    })
+    // vm.boardRead = true;
+    // vm.boardList = false;
+  </script>
+</body>
+</html>
