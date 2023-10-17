@@ -12,6 +12,19 @@ const myHeader = {
   }
 }
 
+// 목록
+const myBoardList = {
+
+}
+
+// 상세
+const myBoardRead = {
+
+}
+
+myBoardWrite.print();
+
+// Root Component Template
 const template = `
 <div>
   <my-header></my-header>
@@ -21,11 +34,13 @@ const template = `
 </div>
 `;
 
-
-new VTTCue({
+new Vue({
   el: '#app',
   template: template,
   components: {
-    'my-header': myHeader
+    'my-header': myHeader,
+    'my-board-list': myBoardList,
+    'my-board-read': myBoardRead,
+    'my-board-wirte': myBoardWrite
   }
 })
