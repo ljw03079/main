@@ -56,7 +56,6 @@
     <div>
       <search-component v-on:search="searchEvent"></search-component>
       <list-component v-bind:lists="dataList"></list-component>
-      <div v-show="isProcessing">조회 중</div>
     </div>
   </template>
   <script>
@@ -64,7 +63,6 @@
       template: '#searchlistTemplate',
       data: function(){
         return {
-          isProcessing: false,
           dataList: ['hello','world','nice','friend','happy']
         }
       },
