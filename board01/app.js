@@ -9,11 +9,19 @@ import myBoardRead from "./components/myBoardRead.js"
 // Root Component Template
 const template = `
 <div>
-  <my-header></my-header>
+  <my-header
+      v-on:load-data="loadData"></my-header>
   <my-board-list v-if="listOK" v-bind:obj="dataArray.board"
-    v-on:board-write="boardWrite"></my-board-list>
-  <my-board-read v-if="readOK"></my-board-read>
-  <my-board-wirte v-if="writeOK"></my-board-wirte>
+      v-on:board-write="boardWrite"
+      v-on:board-delete="boardDelete"
+      v-on:board-read="boardRead"
+    ></my-board-list>
+  <my-board-read v-if="readOK" v-bind:obj="data"
+      v-on:board-list="boardList"></my-board-read>
+  <my-board-wirte v-if="writeOK"
+      v-on:board-list="boardList"
+      v-on:board-save="boardSave"
+    ></my-board-wirte>
 </div>
 `;
 
@@ -26,6 +34,7 @@ new Vue({
     writeOK: false,
     // board.json {board: [{},{},{}]}
     dataArray: {},
+    data: []
   },
   components: {
     'my-header': myHeader,
@@ -47,27 +56,68 @@ new Vue({
       this.writeOK = true;
     },
     // 상세화면 출력
-    boardRead(){
+    boardRead(board){
       this.listOK = false;
+      this.data = board;
+      board.view++;
       this.readOK = true;
       this.writeOK = false;
+    },
+    // 글저장 실행
+    boardSave(title, content){
+      // no=max+1, view=0
+      let no = 1;
+      let view = 0;
+      if(this.dataArray.board.length != 0){
+        let idx = this.dataArray.board.length -1;
+        no = Number(this.dataArray.board[idx].no) + 1;
+      }
+
+      let board = {no, title, content, view}
+      this.dataArray.board.push(board);
+
+      // 목록화면 실행.
+      this.boardList();
+    },
+    // 글삭제 실행
+    boardDelete(no){
+      // no 삭제 후 dataArray에 바뀐 값을 저장.
+      let resultAry = {board: []};
+      /*
+      for(let i=0;i<this.dataArray.board.length;i++){
+        if(this.dataArray.board[i].no != no){
+          resultAry.board.push(this.dataArray.board[i]);
+        }
+      }
+      this.dataArray = resultAry;
+      */
+      this.dataArray.board.filter(item => {
+        if(item.no != no){
+          resultAry.board.push(item);
+        }
+      })
+      this.dataArray = resultAry;
+    },
+    loadData(data){
+      this.dataArray = data;
+      this.boardList();
     }
   },
   beforeCreate: function(){
     // console.log('beforeCreate');
     // console.log(this.dataArray);
   },
-  created: function(){
-    // board.json 데이터 목록 출력.
-    fetch('./data/board.json')
-    .then(resolve => resolve.json())
-    .then(result => {
-      this.dataArray = result;
-      // 목록페이지 open.
-      this.boardList();
-    })
-    .catch(err => console.log('parsing error: ',err));
-  }
+  // created: function(){
+  //   // board.json 데이터 목록 출력.
+  //   fetch('./data/board.json')
+  //   .then(resolve => resolve.json())
+  //   .then(result => {
+  //     this.dataArray = result;
+  //     // 목록페이지 open.
+  //     this.boardList();
+  //   })
+  //   .catch(err => console.log('parsing error: ',err));
+  // }
 })
 
 // **실행과정** //

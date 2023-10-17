@@ -30,10 +30,10 @@ export default {
       this.$emit('board-write')
     },
     boardDelete(no){
-      this.$emit('???')
+      this.$emit('board-delete',no)
     },
     boardRead(board){
-      this.$emit('???')
+      this.$emit('board-read',board)
     }
   }
 }
