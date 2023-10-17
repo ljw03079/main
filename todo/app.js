@@ -63,7 +63,11 @@ new Vue({
     todoClick(no){
       this.dataArray.todo.filter(item => {
         if(item.no == no){
-          item.check = "checked"
+          if(item.check == ''){
+            item.check = "checked"
+          }else{
+            item.check = ''
+          }
         }
       })
     },
