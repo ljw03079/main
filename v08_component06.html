@@ -129,6 +129,12 @@
               this.contactlist = [];
               this.isProcessing = false;
             })
+          },
+          components: function(){
+            return {
+              'search-component': searchComponent,
+              'contactlist-component': contactlistComponent
+            }
           }
         }
       }
@@ -142,9 +148,7 @@
     new Vue({
       el: '#app',
       components: {
-        'search-contact-component': searchContactComponent,
-        'search-component': searchComponent,
-        'contactlist-component': contactlistComponent
+        'search-contact-component': searchContactComponent
       }
     })
   </script>
