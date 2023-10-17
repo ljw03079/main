@@ -1,0 +1,40 @@
+{
+  "todo":[
+    {
+      "no": "1",
+      "title": "Hit the gym",
+      "dueDate": "2023-10-17",
+      "check": ""
+    },
+    {
+      "no": "2",
+      "title": "Pay bills",
+      "dueDate": "2023-10-18",
+      "check": ""
+    },
+    {
+      "no": "3",
+      "title": "Meet George",
+      "dueDate": "2023-10-19",
+      "check": ""
+    },
+    {
+      "no": "4",
+      "title": "Buy eggs",
+      "dueDate": "2023-10-20",
+      "check": ""
+    },
+    {
+      "no": "5",
+      "title": "Read a book",
+      "dueDate": "2023-10-21",
+      "check": ""
+    },
+    {
+      "no": "6",
+      "title": "Organize office",
+      "dueDate": "2023-10-22",
+      "check": ""
+    }
+  ]
+}
