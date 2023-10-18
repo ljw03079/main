@@ -13,8 +13,8 @@ const template = `
   <main>
     <div class="row">
       <my-product-list v-if="showProduct"
+                       v-bind:cartItemCount="cartItemCount"
                        v-on:addToCart="addToCart"
-                       v-bind:canAddToCart="canAddToCart"
       ></my-product-list>
       <my-product-order v-else
                         v-on:submitForm="submitForm"
@@ -38,9 +38,14 @@ var webstore = new Vue({
     'my-product-list': myProductList,
     'my-product-order': myProductOrder
   },
+  computed: {
+    cartItemCount(){
+      return this.cart.length || '';
+    }
+  },
   methods: {
-    addToCart: function() {
-      this.cart.push( this.product.id );
+    addToCart: function(cart) {
+      this.cart = cart
     },
     showCheckout(){
       this.showProduct = this.showProduct ? false: true;

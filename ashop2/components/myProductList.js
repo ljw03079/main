@@ -35,15 +35,16 @@ export default {
       cart: []
     }
   },
-  props: ['canAddToCart'],
+  props: ['cartItemCount'],
   computed: {
-    cartItemCount(){
-      return this.cart.length || '';
-    },
+    canAddToCart(){
+      return this.product.availableInventory > this.cartItemCount;
+    }
   },
   methods: {
     addToCart(){
-      return this.product.availableInventory > this.cartItemCount;
+      this.cart.push(this.product.id);
+      this.$emit('addToCart',this.cart);
     }
   },
   filters: {
