@@ -15,7 +15,12 @@ export default {
       </div>
   </div>
   `,
-  props: ['sitename','cartItemCount'],
+  data: function(){
+    return {
+      sitename: "Vue.js 애완용품샵"
+    }
+  },
+  props: ['cartItemCount'],
   methods: {
     showCheckout(){
       this.$emit('showCheckout')
