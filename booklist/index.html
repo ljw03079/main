@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>booklist/index.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app" align="center">
+
+    <!-- 도서 목록 -->
+    <div id="bookList" v-if="bookList">
+      <h3>도서목록</h3>
+      <table border="1" id="list">
+        <thead>
+          <tr>
+            <th style="width: 20%">도서코드</th>
+            <th style="width: 30%">제목</th>
+            <th style="width: 15%">저자</th>
+            <th style="width: 20%">출판사</th>
+            <th style="width: 10%">가격</th>
+            <th style="width: 5%">삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="book in books">
+            <td>{{book.bookCode}}</td>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.press}}</td>
+            <td>{{book.price}}</td>
+            <td style="text-align: center"><button @click="bookDelete(book.bookCode)">삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <button @click="bookAddEvent">도서추가</button>
+    </div>
+
+    <!-- 도서 추가 -->
+    <div id="bookAdd" v-if="bookAdd">
+      <h3>도서추가</h3>
+      <table id="list">
+        <tbody>
+          <tr>
+            <th>도서코드</th>
+            <td><input type="text" style="width: 90%" v-model="code"></td>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <td><input type="text" style="width: 90%" v-model="title"></td>
+          </tr>
+          <tr>
+            <th>저자</th>
+            <td><input type="text" style="width: 90%" v-model="author"></td>
+          </tr>
+          <tr>
+            <th>출판사</th>
+            <td><input type="text" style="width: 90%" v-model="press"></td>
+          </tr>
+          <tr>
+            <th>가격</th>
+            <td><input type="text" style="width: 90%" v-model="price"></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <button @click="bookListEvent">목록보기</button>
+      <button @click="saveBook">추가</button>
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        bookList: true,
+        bookAdd: false,
+        //
+        books: [],
+        code: '',
+        title: '',
+        author: '',
+        press: '',
+        price: ''
+      },
+      methods: {
+        bookDelete(code){
+          for(let i=0; i<this.books.length; i++){
+            if(this.books[i].bookCode == code){
+              this.books.splice(i,1);
+            }
+          }
+          this.bookListEvent();
+        },
+        bookAddEvent(){
+          this.bookList = false,
+          this.bookAdd = true
+        },
+        bookListEvent(){
+          this.bookList = true,
+          this.bookAdd = false
+        },
+        saveBook(){
+          [bookCode,title,author,press,price]=[this.code,this.title,this.author,this.press,this.price];
+          this.books.push({bookCode, title, author, press, price});
+          this.bookListEvent();
+          [this.code,this.title,this.author,this.press,this.price]=['','','','',''];
+        }
+      },
+      created: function(){
+        fetch('./books.json')
+          .then(resolve => resolve.json())
+          .then(result => {
+            this.books = result.books;
+            this.bookListEvent();
+          })
+          .catch(err => console.log(err));
+      }
+    })
+  </script>
+</body>
+</html>

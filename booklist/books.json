@@ -1,0 +1,22 @@
+{
+	"books": [
+	          {"bookCode": "B001",
+			   "title": "이것이자바다",
+			   "author": "신용권",
+			   "press": "행복출판사",
+			   "price": 20000
+			  },
+	          {"bookCode": "B002",
+			   "title": "행복한 아이키우기",
+			   "author": "김행복",
+			   "press": "이상출판사",
+			   "price": 12000
+			  },
+	          {"bookCode": "B003",
+			   "title": "홍길동 자서전",
+			   "author": "홍길동",
+			   "press": "좋은출판사",
+			   "price": 22000
+			  }
+            ]
+}
