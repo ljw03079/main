@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v09_slot01.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <!-- slot: component => 하위의 html 전달. (하위의 정보전달 v-bind: attr="") -->
+  <div id="app">
+    <form-component v-bind:author="author" v-bind:title="title">
+      <h3 slot="header">{{header}}</h3>
+      <p slot="content">markup 정보를 전달하기.</p>
+      <h3>푸터영역입니다.</h3>
+    </form-component>
+  </div>
+
+  <script>
+    const FormComponent = {
+      // html markup 값은 slot 태그로 전달
+      // 이름 지정하지 않은 markup은 <slot>
+      template: `
+      <div>
+        <form>
+          <slot name="header"></slot>
+          <label>{{title}}</label><input id="title"><br>
+          <label>{{author}}</label><input id="author"><br>
+          <slot name="content"></slot>
+          <slot></slot>
+        </form>
+      </div>
+      `,
+      // attr 값은 props에 담아서 전달
+      props: ['title','author']
+    };
+
+    new Vue({
+      el: '#app',
+      data: {
+        author: "저자",
+        title: "제목",
+        header: "책 저자 폼"
+      },
+      components: {
+        'form-component': FormComponent
+      }
+    })
+  </script>
+</body>
+</html>
