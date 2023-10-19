@@ -1,10 +1,8 @@
 // form.js
-import MyHeader from './header.js';
 
 export default {
   template: `
 <div>
-  <my-header v-bind:cartItemCount="cartItemCount"></my-header>
   <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-info">
       <div class="panel-heading">애완용품샵 체크아웃</div>
@@ -127,15 +125,9 @@ export default {
       }
     }
   },
-  components: {
-    'my-header': MyHeader
-  },
   methods: {
     submitForm(){
       alert("제출완료")
     }
-  },
-  created: function(){
-    this.cartItemCount = this.$route.params.cnt;
   }
 }

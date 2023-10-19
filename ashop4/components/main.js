@@ -1,10 +1,8 @@
 // main.js
-import MyHeader from './header.js';
 
 export default {
   template: `
 <div>
-  <my-header v-bind:cartItemCount="cartItemCount"></my-header>
   <main>
       <!-- 상품목록.. -->
       <div v-for="product in orderedAry">
@@ -51,14 +49,7 @@ export default {
       cart: []
     }
   },
-  components: {
-    'my-header': MyHeader
-  },
   computed: {
-    // 매개값을 받을 수 없음.
-    cartItemCount() {
-      return this.cart.length || '';
-    },
     orderedAry: function(){
       let productAry = this.products;
       let result = productAry.sort(function(a,b){
@@ -79,6 +70,7 @@ export default {
   methods: {
     addToCart: function(product) {
       this.cart.push( product.id );
+      this.$emit('addToCart', this.cart)
     },
     showCheckout() {
       this.showProduct = this.showProduct ? false: true;
