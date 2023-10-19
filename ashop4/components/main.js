@@ -68,9 +68,13 @@ export default {
     }
   },
   methods: {
+    cartItemCount(){
+      //console.log(this.cart.length || '');
+      this.$emit('cartItemCount',this.cart.length);
+    },
     addToCart: function(product) {
       this.cart.push( product.id );
-      this.$emit('addToCart', this.cart)
+      this.cartItemCount();
     },
     showCheckout() {
       this.showProduct = this.showProduct ? false: true;

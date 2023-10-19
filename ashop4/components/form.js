@@ -122,12 +122,17 @@ export default {
         gift:'선물로 보내기',
         sendGift: '선물로 보내기',
         dontSendGift: '선물로 보내기 않기'
-      }
+      },
+      AfterSubmitCount: 0
     }
   },
   methods: {
     submitForm(){
-      alert("제출완료")
+      alert("제출완료");
+      this.showList();
+    },
+    showList(){
+      this.$emit('showList', this.AfterSubmitCount);
     }
   }
 }
